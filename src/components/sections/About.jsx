@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 
 const About = () => {
   return (
@@ -14,8 +14,10 @@ const About = () => {
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-8">About Me</h2>
           <p className="text-gray-400 text-lg leading-relaxed">
-            I am a passionate Full Stack Developer specializing in the MERN stack and AI SaaS applications.
-            My goal is to build scalable, high-performance web applications that solve real-world problems while delivering an exceptional user experience.
+            I am a passionate Full Stack Developer specializing in the MERN
+            stack . My goal is to build scalable, high-performance web
+            applications that solve real-world problems while delivering an
+            exceptional user experience.
           </p>
         </motion.div>
       </div>
