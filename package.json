@@ -1,0 +1,15 @@
+{
+  "name": "rudra-shah-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Premium portfolio for Rudra Shah — Full Stack MERN & AI SaaS Developer",
+  "scripts": {
+    "dev": "npm run dev --prefix client",
+    "dev:server": "npm run dev --prefix server",
+    "dev:all": "npx concurrently -n client,server -c cyan,magenta \"npm run dev --prefix client\" \"npm run dev --prefix server\"",
+    "build": "npm run build --prefix client",
+    "build:server": "npm run build --prefix server",
+    "preview": "npm run preview --prefix client"
+  }
+}

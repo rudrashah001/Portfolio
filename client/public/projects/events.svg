@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <rect width="800" height="400" fill="#0c4a6e"/>
+  <rect x="280" y="100" width="240" height="200" rx="12" fill="#22d3ee" opacity="0.2" stroke="#67e8f9" stroke-width="2"/>
+  <text x="400" y="210" text-anchor="middle" fill="#e0f2fe" font-family="system-ui" font-size="26" font-weight="700">Event Management</text>
+</svg>
