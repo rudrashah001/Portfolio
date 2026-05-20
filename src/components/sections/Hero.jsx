@@ -59,7 +59,7 @@ const Hero = () => {
             View Projects <ArrowRight className="ml-2 w-4 h-4" />
           </a>
           <a
-            href="/resume.pdf"
+            href="https://docs.google.com/document/d/1VEgghNo0dDi7aNoZbpFOWvaR6G6H8_U-/edit?usp=drive_link&ouid=109735207089568725818&rtpof=true&sd=true"
             target="_blank"
             className="inline-flex items-center justify-center px-8 py-3 text-sm font-medium text-white glass rounded-full hover:bg-white/10 transition-colors"
           >
