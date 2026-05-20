@@ -11,5 +11,8 @@
     "build": "npm run build --prefix client",
     "build:server": "npm run build --prefix server",
     "preview": "npm run preview --prefix client"
+  },
+  "dependencies": {
+    "nodemailer": "^6.10.0"
   }
 }

@@ -14,17 +14,33 @@ export function Contact() {
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const sendServerMessage = async () => {
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
+
+    if (!res.ok) {
+      const data = await res.json().catch(() => null);
+      throw new Error(data?.error ?? "Failed to send message.");
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("loading");
+    setErrorMessage(null);
 
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID ?? "";
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID ?? "";
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY ?? "";
+    const emailJSConfigured = Boolean(serviceId && templateId && publicKey);
 
     try {
-      if (serviceId && templateId && publicKey) {
+      if (emailJSConfigured) {
         await emailjs.send(
           serviceId,
           templateId,
@@ -37,17 +53,33 @@ export function Contact() {
           publicKey,
         );
       } else {
-        const res = await fetch("/api/contact", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(form),
-        });
-        if (!res.ok) throw new Error("Failed to send");
+        await sendServerMessage();
       }
+
       setStatus("success");
       setForm({ name: "", email: "", message: "" });
-    } catch {
+    } catch (caughtError) {
+      let error =
+        caughtError instanceof Error
+          ? caughtError
+          : new Error("Failed to send message.");
+
+      if (emailJSConfigured) {
+        try {
+          await sendServerMessage();
+          setStatus("success");
+          setForm({ name: "", email: "", message: "" });
+          return;
+        } catch (fallbackError) {
+          error =
+            fallbackError instanceof Error
+              ? fallbackError
+              : new Error("Failed to send message.");
+        }
+      }
+
       setStatus("error");
+      setErrorMessage(error.message);
     }
   };
 
@@ -152,6 +184,11 @@ export function Contact() {
                   >
                     {SITE.email}
                   </a>
+                  {errorMessage && (
+                    <span className="block text-red-200 mt-1 text-xs">
+                      {errorMessage}
+                    </span>
+                  )}
                 </motion.p>
               )}
             </AnimatePresence>
