@@ -8,6 +8,7 @@ export const SITE = {
   ],
   location: "Gujarat, India",
   email: "rudrapshah555@gmail.com",
+  emailUrl: "https://mail.google.com/mail/?view=cm&fs=1&to=rudrapshah555@gmail.com",
   linkedin: "https://www.linkedin.com/in/rudra-shah-421761349/",
   github: "https://github.com/rudrashah001",
   githubUsername: "rudrashah001",

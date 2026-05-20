@@ -1,25 +1,27 @@
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import emailjs from '@emailjs/browser'
-import { Download, Mail, Send, CheckCircle2 } from 'lucide-react'
-import { GitHubIcon, LinkedInIcon } from '@/components/ui/social-icons'
-import { SectionHeading } from '@/components/ui/section-heading'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { SITE } from '@/lib/constants'
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import emailjs from "@emailjs/browser";
+import { Download, Mail, Send, CheckCircle2 } from "lucide-react";
+import { GitHubIcon, LinkedInIcon } from "@/components/ui/social-icons";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { SITE } from "@/lib/constants";
 
 export function Contact() {
-  const [form, setForm] = useState({ name: '', email: '', message: '' })
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setStatus('loading')
+    e.preventDefault();
+    setStatus("loading");
 
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
     try {
       if (serviceId && templateId && publicKey) {
@@ -33,21 +35,21 @@ export function Contact() {
             to_name: SITE.name,
           },
           publicKey,
-        )
+        );
       } else {
-        const res = await fetch('/api/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(form),
-        })
-        if (!res.ok) throw new Error('Failed to send')
+        });
+        if (!res.ok) throw new Error("Failed to send");
       }
-      setStatus('success')
-      setForm({ name: '', email: '', message: '' })
+      setStatus("success");
+      setForm({ name: "", email: "", message: "" });
     } catch {
-      setStatus('error')
+      setStatus("error");
     }
-  }
+  };
 
   return (
     <section id="contact" className="section-padding">
@@ -92,7 +94,10 @@ export function Contact() {
               />
             </div>
             <div>
-              <label htmlFor="message" className="text-sm text-muted mb-2 block">
+              <label
+                htmlFor="message"
+                className="text-sm text-muted mb-2 block"
+              >
                 Message
               </label>
               <Textarea
@@ -104,9 +109,14 @@ export function Contact() {
               />
             </div>
 
-            <Button type="submit" size="lg" className="w-full" disabled={status === 'loading'}>
-              {status === 'loading' ? (
-                'Sending…'
+            <Button
+              type="submit"
+              size="lg"
+              className="w-full"
+              disabled={status === "loading"}
+            >
+              {status === "loading" ? (
+                "Sending…"
               ) : (
                 <>
                   <Send className="h-4 w-4" />
@@ -116,7 +126,7 @@ export function Contact() {
             </Button>
 
             <AnimatePresence>
-              {status === 'success' && (
+              {status === "success" && (
                 <motion.p
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -127,13 +137,21 @@ export function Contact() {
                   Message sent successfully!
                 </motion.p>
               )}
-              {status === 'error' && (
+              {status === "error" && (
                 <motion.p
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   className="text-center text-red-400 text-sm"
                 >
-                  Could not send. Email me at {SITE.email}
+                  Could not send. Email me at{" "}
+                  <a
+                    href={SITE.emailUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline text-red-200 hover:text-red-100"
+                  >
+                    {SITE.email}
+                  </a>
                 </motion.p>
               )}
             </AnimatePresence>
@@ -148,7 +166,9 @@ export function Contact() {
             <div className="glass rounded-3xl p-8">
               <h3 className="text-xl font-bold mb-4">Connect directly</h3>
               <a
-                href={`mailto:${SITE.email}`}
+                href={SITE.emailUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-3 text-muted hover:text-cyan-400 transition-colors mb-6"
               >
                 <Mail className="h-5 w-5" />
@@ -187,5 +207,5 @@ export function Contact() {
         </div>
       </div>
     </section>
-  )
+  );
 }
